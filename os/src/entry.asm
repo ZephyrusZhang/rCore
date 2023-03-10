@@ -1,12 +1,12 @@
     .section .text.entry
     .globl _start
 _start:
-    la sp, boot_stack_top
+    la sp, bootstacktop
     call rust_main
 
     .section .bss.stack
-    .globl boot_stack_lower_bound
-boot_stack_lower_bound:
+    .globl bootstack
+bootstack:
     .space 4096 * 16
-    .globl boot_stack_top
-boot_stack_top:
+    .globl bootstacktop
+bootstacktop:
