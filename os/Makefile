@@ -19,7 +19,7 @@ SBI ?= rustsbi
 BOOTLOADER := ../bootloader/$(SBI)-$(BOARD).bin
 
 # KERNEL ENTRY
-KERNEL_ENTRY_PA := 0x80000000
+KERNEL_ENTRY_PA := 0x80200000
 
 # Binutils
 OBJDUMP := rust-objdump --arch-name=riscv64
@@ -39,4 +39,8 @@ run: build
 		-machine virt \
 		-nographic \
 		-bios $(BOOTLOADER) \
-		-device loader,file=$(KERNEL_BIN),addr=0x80200000
+		-device loader,file=$(KERNEL_BIN),addr=$(KERNEL_ENTRY_PA)
+gdbserver: build
+	@qemu-system-riscv64 -machine virt -nographic -bios $(BOOTLOADER) -device loader,file=$(KERNEL_BIN),addr=$(KERNEL_ENTRY_PA) -s -S
+gdbclient:
+	@riscv64-unknown-elf-gdb -ex 'file $(KERNEL_ELF)' -ex 'set arch riscv:rv64' -ex 'target remote localhost:1234'
