@@ -25,13 +25,18 @@ KERNEL_ENTRY_PA := 0x80200000
 OBJDUMP := rust-objdump --arch-name=riscv64
 OBJCOPY := rust-objcopy --binary-architecture=riscv64
 
-build: $(KERNEL_BIN)
+build: $(KERNEL_BIN) app
 
 $(KERNEL_BIN): kernel
 	@$(OBJCOPY) $(KERNEL_ELF) --strip-all -O binary $@
 
+app:
+	@rustc build.rs
+	@./build
+	@rm build
+
 kernel:
-	@echo Platform: $(BOARD)
+	@echo [make] Platform: $(BOARD)
 	@cargo build --release
 
 run: build
