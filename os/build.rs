@@ -27,8 +27,8 @@ fn insert_app_data() -> Result<()> {
         r#"
     .align 3
     .section .data
-    .global _num_app
-_num_app:
+    .global _app_num
+_app_num:
     .quad {}"#,
         apps.len()
     )?;

@@ -1,8 +1,8 @@
 
     .align 3
     .section .data
-    .global _num_app
-_num_app:
+    .global _app_num
+_app_num:
     .quad 5
     .quad app_0_start
     .quad app_1_start
